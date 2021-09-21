@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -34,8 +35,11 @@ class RestExec {
     @Value("${rest.target}")
     String restTarget;
 
-    @Autowired
-    RestTemplate restTemplate;
+    final RestTemplate restTemplate;
+
+    public RestExec(RestTemplateBuilder builder) {
+        this.restTemplate = builder.build();
+    }
 
     @GetMapping
     public String Rest(@RequestHeader Map<String, String> header) {
